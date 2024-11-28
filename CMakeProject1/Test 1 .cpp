@@ -68,6 +68,8 @@ int main() {
         hoursOnTheWay = differenceInMinutes < 0 ? 23 : 0;
     }if (differenceInMinutes < 0 && differenceInHourse > 0) {
         hoursOnTheWay -= 1;
+    }if (differenceInMinutes < 0 && differenceInHourse < 0) {
+        hoursOnTheWay -= 1;
     }
 
     cout << "The trip took: " << hoursOnTheWay << " hours " << minutesOnTheWay << " minutes.";
