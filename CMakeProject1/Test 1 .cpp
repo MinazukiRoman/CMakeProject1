@@ -1,32 +1,37 @@
-#include <iostream>
-#include <cmath>
-int main()
-{
-    float a, b, c;
-    std::cout << "a, b, c:";
-    std::cin >> a >> b >> c;
-    if (a < 0)
-    {
-        std::cout << "Not a quadratic equation!" << std::endl;
-    }
-    else if (b > 0)
-    {
-        float discriminant = b * b - 4 * a * c;
+#include<iostream>
+#include<string>
 
-        if (discriminant > 1)
-        {
-            float x1 = (-b + (std::sqrt(discriminant))) / (2 * a);
-            float x2 = (-b - (std::sqrt(discriminant))) / (2 * a);
-            std::cout << "Root 1, 2: " << x1 << ", " << x2 << std::endl;
-        }
-        else if (discriminant == 0)
-        {
-            float x = -b / (2 * a);
-            std::cout << "Root: " << x << std::endl;
-        }
-        else
-        {
-            std::cout << "Complex scenario is not supported!" << std::endl;
-        }
-    }
+using namespace std;
+
+int encrypt_caesar(int code, int symbol) {
+	code = code > 26 ? code % 26 : code;
+	if (char(symbol) >= 'a' && char(symbol) <= 'z') {
+		symbol = (symbol + code) > int('z') ? (int('a') - 1) + (code + (symbol - int('z'))) : symbol += code;
+		return symbol;
+	}
+	else if (char(symbol) >= 'A' && char(symbol) <= 'Z') {
+		symbol = (symbol + code) > int('Z') ? (int('A') - 1) + (code + (symbol - int('Z'))) : symbol += code;
+		return symbol;
+	}
+	return symbol;
+}
+
+
+
+int main() {
+	string result;
+	cout << "Input text: ";
+	string text;
+	getline(cin, text);
+
+	cout << "Code: ";
+	int code;
+	cin >> code;
+
+	for (int i = 0; i < text.length(); i++) {
+		int symbol = int(text[i]);
+		result += char(encrypt_caesar(code, symbol));
+	}
+
+	cout << result;
 }
