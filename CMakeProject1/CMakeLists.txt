@@ -3,7 +3,7 @@
 #
 
 # Добавьте источник в исполняемый файл этого проекта.
-add_executable (CMakeProject1 "CMakeProject1.cpp" "CMakeProject1.h")
+add_executable (CMakeProject1 "Test1.cpp" "CMakeProject1.h" "Test2.cpp" "Test3.cpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET CMakeProject1 PROPERTY CXX_STANDARD 20)
