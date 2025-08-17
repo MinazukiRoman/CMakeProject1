@@ -3,67 +3,115 @@
 
 using namespace std;
 
-int result(vector<int>nums) {
-	int sz = nums.size() - 1;
-	bool start = true;
-	while (start) {
-		start = false;
-		for (int i = 0; i < sz; i++) {
-			if (nums[i] > nums[i + 1]) {
-				swap(nums[i], nums[i + 1]);
-				start = true;
-			}
-		}
-	}
-
-
-	for (int i = 0; i < nums.size(); i++) {
-		cout << nums[i] << " ";
-	}
-	return 0;
-}
-
-bool unCorrect(int userInput) {
+bool unCorrectInput(char symbols[][3], int userInputX, int userInputY) {
 	if (cin.fail()) {
 		cin.clear();
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		cout << "Uncorrect input!\n";
+		cout << "\nUncorrect input!";
 		return true;
 	}
-	if (userInput >= -1) {
-		return false;
+	if ((userInputX < 0 || userInputX > 2) || (userInputY < 0 || userInputY > 2)) {
+		cout << "\nUncorrect input!";
+		return true;
 	}
+	if (symbols[userInputY][userInputX] != false) {
+		cout << "\nUncorrect input!";
+		return true;
+	}
+	return false;
+}
+
+void displayPrint(char display[][7], char symbols[][3], int userInputX, int userInputY) {
+
+	display[2 + 2 * userInputY][2 + 2 * userInputX] = symbols[userInputY][userInputX];
+	for (int i = 0; i < 7; i++) {
+		cout << endl;
+		for (int j = 0; j < 7; j++) {
+			cout << display[i][j];
+		}
+	}
+}
+
+bool endGame(char symbols[][3], char player) {
+	for (int i = 0; i < 3; i++) {
+		if (symbols[0][i] != false && symbols[0][i] == symbols[1][i] && symbols[1][i] == symbols[2][i]) {
+			cout << "\nWin player " << player << "!";
+			return true;
+		}
+		if (symbols[i][0] != false && symbols[i][0] == symbols[i][1] && symbols[i][1] == symbols[i][2]) {
+			cout << "\nWin player " << player << "!";
+			return true;
+		}
+		if (symbols[0][0] != false && symbols[0][0] == symbols[1][1] && symbols[1][1] == symbols[2][2]) {
+			cout << "\nWin player " << player << "!";
+			return true;
+		}
+		if (symbols[0][2] != false && symbols[0][2] == symbols[1][1] && symbols[1][1] == symbols[2][0]) {
+			cout << "\nWin player " << player << "!";
+			return true;
+		}
+	}
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			if (symbols[i][j] == false) {
+				return false;
+			}
+		}
+	}
+	cout << "\nDraw.";
 	return true;
 }
 
 int main()
 {
-	vector<int>nums(20);
-	int userInput;
-	int steps = 0;
 
-	while (true) {
-		for (int i = 0; i < nums.size(); i++) {
-			if (steps == nums.size()) {
-				i = 0;
-			}
+	char symbols[3][3] = { {{ false }, { false }, { false }},
+						   {{ false }, { false }, { false }},
+						   {{ false }, { false }, { false }} };
 
-			do {
-				cout << "Input number: ";
-				cin >> userInput;
+	char display[7][7] = { {{' '}, {'x'}, {'0'}, {' '}, {'1'}, {' '}, {'2'}},
+						   {{'y'}, {' '}, {' '}, {' '}, {' '}, {' '}, {' '}},
+						   {{'0'}, {' '}, {' '}, {'|'}, {' '}, {'|'}, {' '}},
+						   {{' '}, {' '}, {'='}, {'='}, {'='}, {'='}, {'='}},
+						   {{'1'}, {' '}, {' '}, {'|'}, {' '}, {'|'}, {' '}},
+						   {{' '}, {' '}, {'='}, {'='}, {'='}, {'='}, {'='}},
+						   {{'2'}, {' '}, {' '}, {'|'}, {' '}, {'|'}, {' '}} };
 
-			} while (unCorrect(userInput));
+	char player = 'X';
 
-			if (userInput == -1) {
-				result(nums);
-				i--;
-				cout << endl;
-			}
+	int userInputX;
+	int userInputY;
 
-			else {
-				nums[i] = userInput;
-				steps++;
-			}
+	for (int i = 0; i < 7; i++) {
+		cout << endl;
+		for (int j = 0; j < 7; j++) {
+			cout << display[i][j];
+		}
+	}
+
+	for (;;) {
+
+		do {
+			cout << "\n\nPlayer " << player;
+			cout << ".\nInput X: ";
+			cin >> userInputX;
+			cout << "Input Y: ";
+			cin >> userInputY;
+		} while (unCorrectInput(symbols, userInputX, userInputY));
+
+		symbols[userInputY][userInputX] = player;
+
+		displayPrint(display, symbols, userInputX, userInputY);
+
+		if (endGame(symbols, player)) {
+			break;
+		}
+
+		if (player == 'X') {
+			player = 'O';
+		}
+		else {
+			player = 'X';
 		}
 	}
 }

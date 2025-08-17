@@ -6,17 +6,43 @@ using namespace std;
 
 int main()
 {
-	vector<float>price{ 1.25, 2.5, 1, 5, 7,5 };
-	vector<int>product{ 1, 1, 6, 0, -1, 3, 5, 7 };
-	float sum = 0;
 
-	for (int i = 0; i < product.size(); i++) {
-		if (product[i] > price.size() - 1 || product[i] < 0) {
-			cout << "Product number " << i + 1 << " uncorrect!\n";
-		}
-		else {
-			sum += price[product[i]];
+	int matrix1[4][4];
+	int matrix2[4][4];
+
+	bool correct = true;
+
+	for (int i = 0; i < 4; i++) {
+		if (correct) {
+			for (int j = 0; j < 4; j++) {
+				cout << "Input number for matrix 1: ";
+				cin >> matrix1[i][j];
+				cout << "Input number for matrix 2: ";
+				cin >> matrix2[i][j];
+				if (matrix1[i][j] != matrix2[i][j]) {
+					cout << "Matrix not!";
+					correct = false;
+					break;
+				}
+			}
 		}
 	}
-	cout << "Final price: " << sum;
+
+	if (correct) {
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				if (i == j) {
+					cout << matrix1[i][i];
+				}
+				else if (3 - i == j) {
+					cout << matrix1[i][j];
+				}
+				else {
+					matrix1[i][j] = 0;
+					cout << matrix1[i][j];
+				}
+			}
+			cout << endl;
+		}
+	}
 }
